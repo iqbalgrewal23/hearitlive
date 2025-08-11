@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  section.search
+    h2 Find live music events
+    form(action="/search", method="POST")
+      label(for="city") Enter a city name:
+      input#city(type="text", name="city", placeholder="e.g. Toronto", required)
+      button(type="submit") Search

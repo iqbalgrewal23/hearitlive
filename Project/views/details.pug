@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  if event
+    section.event-details
+      h2 #{event.name}
+      if event.image
+        img(src=event.image, alt=event.name, width="300")
+      else
+        img(src="/path/to/default-image.jpg", alt="Default Image", width="300")
+      p Date: #{event.date || 'Date not available'}
+      p Venue: #{event.venue || 'Venue not available'}
+      if event.artist
+        p Artist: #{event.artist}
+      a(href=event.url target="_blank") Buy Tickets
+
+    if spotifyData
+      section.spotify-preview
+        h3 Listen to #{spotifyData.artist.name || 'Unknown Artist'}
+        if spotifyData.artist.images && spotifyData.artist.images.length > 0
+          img(src=spotifyData.artist.images[0].url, alt=spotifyData.artist.name, width="200")
+        else
+          img(src="/path/to/default-image.jpg", alt="Default Artist Image", width="200")
+        ul
+          each track in spotifyData.tracks
+            li
+              p #{track.name || 'Unknown Track'}
+              if track.preview_url
+                audio(controls)
+                  source(src=track.preview_url, type="audio/mpeg")
+              else
+                p No preview available
+  else
+    p Event details not found.

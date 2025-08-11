@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  h2 Events in #{city}
+  if events.length
+    ul.event-list
+      each event in events
+        li
+          if event.images && event.images.length > 0
+            img(src=event.images[0].url, alt=event.name, width="200")
+          else
+            img(src="/path/to/default-image.jpg", alt="Default Image", width="200")
+          h3 #{event.name}
+          if event.dates && event.dates.start && event.dates.start.localDate
+            p Date: #{event.dates.start.localDate}
+          else
+            p Date: Not available
+          if event._embedded && event._embedded.venues && event._embedded.venues.length > 0
+            p Venue: #{event._embedded.venues[0].name}
+          else
+            p Venue: Not available
+          if event._embedded && event._embedded.attractions && event._embedded.attractions.length > 0
+            p Artist: #{event._embedded.attractions[0].name}
+          else
+            p Artist: Not available
+          a(href=`/events/${event.id}`) View Details
+  else
+    p No events found for #{city}.
